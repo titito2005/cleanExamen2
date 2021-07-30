@@ -33,4 +33,8 @@
     <ProjectReference Include="..\..\src\Server\Examen2.Server.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="InvestigadorContext\Infraestructure\Repositories\" />
+  </ItemGroup>
+
 </Project>
