@@ -15,7 +15,7 @@ namespace Lab2.UnitTests.Application.Investigador
     {
 
         [Fact]
-        public async Task GetTeamsAsyncShouldReturnTeamDTOs()
+        public async Task GetInvestigadoresAsyncShouldReturnTeamDTOs()
         {
             // arrange
             var investigadores = GetListInvestigadorAsync();
