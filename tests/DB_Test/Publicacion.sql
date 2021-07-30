@@ -1,0 +1,9 @@
+﻿CREATE TABLE [dbo].[Publicacion]
+(
+	[Id] VARCHAR(10) NOT NULL,
+	[Nombre] VARCHAR(50) NOT NULL,
+	[Resumen] VARCHAR(100) NOT NULL,
+	[Tipo] VARCHAR(20) NOT NULL,
+	[Referencia] VARCHAR(20) NOT NULL,
+	PRIMARY KEY(Id),
+)

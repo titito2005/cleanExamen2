@@ -18,6 +18,9 @@ EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Examen2.DataBase", "src\Examen2.DataBase\Examen2.DataBase.sqlproj", "{59EF0922-1BB9-4452-980D-D6005BC4D0C7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{C541F320-BBAF-4158-9D9B-CB58F0ACDA1B}"
+	ProjectSection(SolutionItems) = preProject
+		seed_pruebas.sql = seed_pruebas.sql
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lab2.UnitTests", "tests\UnitTests\Lab2.UnitTests.csproj", "{FB9E9F83-A3C0-4237-9318-28F66F04B1A4}"
 EndProject

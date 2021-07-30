@@ -1,4 +1,4 @@
-锘縐se Examen2_DB
+USE Examen2_DB_Test
 /*
 Post-Deployment Script Template							
 --------------------------------------------------------------------------------------
@@ -28,8 +28,8 @@ WHEN NOT MATCHED BY TARGET THEN INSERT (Id, Nombre, FechaInicio, FechaFinal) VAL
 MERGE INTO Publicacion AS Target USING 
     (VALUES 
         ('2221', 'Las Naves Espaciales', 'Sobre las naves espaciales...', 'Revista', 'NatGeo'),
-        ('2222', 'El mundo', '驴C贸mo gira el mundo?', 'Conferencia', 'NatGeo'),
-        ('2223', 'El agua', '驴C贸mo tomar agua?', 'Conferencia', 'NatGeo'),
+        ('2222', 'El mundo', '緾髆o gira el mundo?', 'Conferencia', 'NatGeo'),
+        ('2223', 'El agua', '緾髆o tomar agua?', 'Conferencia', 'NatGeo'),
         ('2224', 'Los aliens', 'El area 51 es real', 'Revista', 'NatGeo')
      )
 AS Source ([Id], Nombre, Resumen, Tipo, Referencia) 
@@ -42,7 +42,7 @@ MERGE INTO Investigador AS Target USING
         ('3331', 'Einstein', 'Dr'),
         ('3332', 'Isaac', 'Dr'),
         ('3333', 'Diego', 'Dr'),
-        ('3334', 'Plat贸n', 'Dr')
+        ('3334', 'Plat髇', 'Dr')
      )
 AS Source ([Id], Nombre, MaxGrado) 
 ON Target.Id = Source.Id
@@ -54,7 +54,7 @@ MERGE INTO Autores AS Target USING
         ('2221', '3331', 'Einstein', 1),
         ('2222', '3332', 'Isaac', 1),
         ('2223', '3333', 'Diego', 1),
-        ('2224', '3334', 'Plat贸n', 1)
+        ('2224', '3334', 'Plat髇', 1)
      )
 AS Source ([IdPublicacion], IdAutor, NombreAutor, Posicion) 
 ON Target.IdPublicacion = Source.IdPublicacion

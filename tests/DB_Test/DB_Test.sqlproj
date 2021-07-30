@@ -57,4 +57,13 @@
   <ItemGroup>
     <Folder Include="Properties" />
   </ItemGroup>
+  <ItemGroup>
+    <Build Include="Autores.sql" />
+    <Build Include="Coordinador.sql" />
+    <Build Include="GrupoInvestigacion.sql" />
+    <Build Include="Investigador.sql" />
+    <Build Include="InvestigadoresPorProyecto.sql" />
+    <Build Include="Publicacion.sql" />
+    <Build Include="PublicacionesPorProyecto.sql" />
+  </ItemGroup>
 </Project>
