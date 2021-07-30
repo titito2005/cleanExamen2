@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -26,6 +26,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Domain\Examen2.Domain.csproj" />
     <ProjectReference Include="..\..\src\Application\Examen2.Application.csproj" />
+    <ProjectReference Include="..\..\src\Infrastructure\Examen2.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
