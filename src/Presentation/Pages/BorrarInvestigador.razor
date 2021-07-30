@@ -1,0 +1,70 @@
+﻿@page "/borrarInvestigador"
+
+@using Examen2.Application.InvestigadorContext
+@using Examen2.Domain.Core.CoreEntities
+@inject IInvestigadorService InvestigadorService
+@inject NavigationManager uriHelper
+<!--HTML-->
+<center>
+    <h3>Borrar Investigador</h3>
+</center>
+@if (cargando)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table text-center">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Grado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--Lista los investigadores-->
+            @foreach (var investigador in Investigadores)
+            {
+                <tr>
+                    <td>@investigador.Id</td>
+                    <td>@investigador.Nombre</td>
+                    <td>@investigador.MaxGrado</td>
+                    <td>
+                        <button class="btn btn-danger" @onclick="_ =>borrarInvestigador(investigador)">
+                            <span class="fas fa-trash">Borrar</span>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    /*Atributos*/
+    IList<Investigador> Investigadores;
+    bool cargando = true;
+
+    /*
+    Resumen: Lista todos los investigadores.
+    Parametros:
+    Retorno:
+    */
+    protected override async Task OnInitializedAsync()
+    {
+        Investigadores = await InvestigadorService.GetListInvestigadorAsync();
+        cargando = false;
+    }
+
+    /*
+    Resumen: Borra el investigador seleccionado.
+    Parametros: Investigador investigador.
+    Retorno:
+    */
+    private void borrarInvestigador(Investigador investigador)
+    {
+        InvestigadorService.borrarInvestigador(investigador);
+        uriHelper.NavigateTo(uriHelper.Uri, forceLoad: true);
+    }
+}

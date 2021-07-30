@@ -1,0 +1,173 @@
+﻿@page "/grupoLista"
+
+@using Examen2.Application.InvestigadorContext
+@using Examen2.Domain.Core.CoreEntities
+@inject IInvestigadorService InvestigadorService
+
+<!--HTML-->
+<center>
+    <h3>Grupos de Investigacion</h3>
+</center>
+@if (cargando)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Fecha Creacion</th>
+                <th>ID de Coordinador</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--Lista los grupos de investigación-->
+            @foreach (var grupo in GrupoInvestigacion)
+            {
+                cargarInvestigadores(grupo.Id);
+                cargarPublicaciones(grupo.Id);
+                <tr>
+                    <th>Grupo</th>
+                </tr>
+                <tr>
+                    <td>@grupo.Id</td>
+                    <td>@grupo.Nombre</td>
+                    <td>@grupo.Descripcion</td>
+                    <td>@grupo.FechaCreacion</td>
+                    <td>@grupo.IdCoordinador</td>
+                </tr>
+                @if (listaPublicacion)
+                {
+                    <p><em>Cargando...</em></p>
+                }
+                else
+                {
+                    <tr>
+                        <th>Publicaciones:</th>
+                    </tr>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Resumen</th>
+                        <th>Tipo</th>
+                        <th>Referencia</th>
+                    </tr>
+                    <!--Lista las publicaciones del grupo de investigación-->
+                    @foreach (var publicaciones in publicacionList)
+                    {
+                        <tr>
+                            <td>@publicaciones.Id</td>
+                            <td>@publicaciones.Nombre</td>
+                            <td>@publicaciones.Resumen</td>
+                            <td>@publicaciones.Tipo</td>
+                            <td>@publicaciones.Referencia</td>
+
+                        </tr>
+                    }
+
+                    <tr>
+                        <th>Investigadores:</th>
+                    </tr>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Grado</th>
+                    </tr>
+                    <!--Lista los investigadores del grupo de investigación-->
+                    @foreach (var investigadores in investigadorList)
+                    {
+                        <tr>
+                            <td>@investigadores.Id</td>
+                            <td>@investigadores.Nombre</td>
+                            <td>@investigadores.MaxGrado</td>
+                        </tr>
+                    }
+                }
+                <!--Limpia las listas-->
+                cleanPublicaciones();
+                cleanInvestigadores();
+
+                <tr class="blank_row">
+                    <td colspan="3"></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    /*Atributos*/
+    IList<GrupoInvestigacion> GrupoInvestigacion = new List<GrupoInvestigacion>();
+    IList<Investigador> investigadorList = new List<Investigador>();
+    IList<Publicacion> publicacionList = new List<Publicacion>();
+    IList<InvestigadoresPorProyecto> investigadores = new List<InvestigadoresPorProyecto>();
+    bool cargando = true;
+    bool listaPublicacion = true;
+    bool listaInvestigador = true;
+
+    /*
+    Resumen: Lista todos los grupos de investigación.
+    Parametros:
+    Retorno:
+    */
+    protected override async Task OnInitializedAsync()
+    {
+        GrupoInvestigacion = await InvestigadorService.GetGrupoInvestigacionAsync();
+        cargando = false;
+    }
+
+    /*
+    Resumen: Lista todos los investigadores según el código del grupo.
+    Parametros: string grupoID.
+    Retorno:
+    */
+    public void cargarInvestigadores(string grupoID)
+    {
+        IList<InvestigadoresPorProyecto> investigadores = InvestigadorService.GetListInvestigadoreProyectoId(grupoID);
+        foreach (var investigador in investigadores)
+        {
+            investigadorList.Add(InvestigadorService.getInvestigador(investigador.IdInvestigador));
+        }
+        listaInvestigador = false;
+    }
+
+    /*
+    Resumen: Lista todos las publicaciones según el código del grupo.
+    Parametros: string grupoID.
+    Retorno:
+    */
+    public void cargarPublicaciones(string grupoID)
+    {
+        IList<PublicacionesPorProyecto> publicaciones = InvestigadorService.GetListPublicacionesProyectotId(grupoID);
+        foreach (var publicacion in publicaciones)
+        {
+            publicacionList.Add(InvestigadorService.getPublicacion(publicacion.IdPublicacion));
+        }
+        listaPublicacion = false;
+    }
+
+    /*
+    Resumen: Limpia la lista de publicaciones.
+    Parametros: string grupoID.
+    Retorno:
+    */
+    public void cleanPublicaciones()
+    {
+        publicacionList.Clear();
+        listaPublicacion = true;
+    }
+
+    /*
+    Resumen: Limpia la lista de investigadores.
+    Parametros: string grupoID.
+    Retorno:
+    */
+    public void cleanInvestigadores()
+    {
+        investigadorList.Clear();
+        listaInvestigador = true;
+    }
+}

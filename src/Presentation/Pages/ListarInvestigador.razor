@@ -1,0 +1,53 @@
+﻿@page "/investigadorLista"
+
+@using Examen2.Application.InvestigadorContext
+@using Examen2.Domain.Core.CoreEntities
+@inject IInvestigadorService InvestigadorService
+<!--HTNML-->
+<center>
+    <h3>Listar Investigadores</h3>
+</center>
+@if (cargando)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Grado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--Lista todos los investigadores-->
+            @foreach (var investigador in Investigadores)
+            {
+                <tr>
+                    <td>@investigador.Id</td>
+                    <td>@investigador.Nombre</td>
+                    <td>@investigador.MaxGrado</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    /*Atributos*/
+    IList<Investigador> Investigadores;
+    bool cargando = true;
+
+    /*
+    Resumen: Lista todos los investigadores de la base de datos.
+    Parametros:
+    Retorno:
+    */
+    protected override async Task OnInitializedAsync()
+    {
+        Investigadores = await InvestigadorService.GetListInvestigadorAsync();
+        cargando = false;
+    }
+}

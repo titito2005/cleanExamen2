@@ -1,0 +1,116 @@
+﻿@page "/modificarInvestigador"
+
+@using Examen2.Application.InvestigadorContext
+@using Examen2.Domain.Core.CoreEntities
+@inject IInvestigadorService InvestigadorService
+@inject NavigationManager uriHelper
+<!--HTML-->
+<center>
+    <h3>Editar Investigador</h3>
+</center>
+
+@if (cargando)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table text-center">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Grado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--Se listan todos los investigadores-->
+            @foreach (var investigador in Investigadores)
+            {
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <input placeholder="@investigador.Id" class="form-control" maxlength="10" readonly />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input @bind="@investigador.Nombre" class="form-control" maxlength="50" required />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input @bind="@investigador.MaxGrado" class="form-control" maxlength="10" required />
+                        </div>
+                    </td>
+                    <td>
+                        <!--Botón para editar los investigadores-->
+                        <button class="btn btn-secondary" @onclick="_ =>updateInvestigador(investigador)">
+                            <span class="fas fa-trash">Editar</span>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @if (feedback)
+    {
+        <p style="color:#FF0000">
+            @feedbackMensaje
+        </p>
+    }
+    else
+    {
+        <p style="color:#3BED0F">
+            @feedbackMensaje
+        </p>
+    }
+}
+
+@code {
+    /*Atributos*/
+    IList<Investigador> Investigadores;
+    bool cargando = true;
+    private string feedbackMensaje = "";
+    private bool feedback = false;
+
+    /*
+    Resumen: Lista todos los investigadores de la base de datos.
+    Parametros:
+    Retorno:
+    */
+    protected override async Task OnInitializedAsync()
+    {
+        Investigadores = await InvestigadorService.GetListInvestigadorAsync();
+        cargando = false;
+    }
+
+    /*
+    Resumen: Actualiza la página.
+    Parametros:
+    Retorno:
+    */
+    private void actualizarPagina()
+    {
+        uriHelper.NavigateTo(uriHelper.Uri, forceLoad: true);
+    }
+
+    /*
+    Resumen: Hace un update al investigador seleccionado.
+    Parametros Investigador investigador.
+    Retorno:
+    */
+    private void updateInvestigador(Investigador investigador)
+    {
+        bool updated = InvestigadorService.updateInvestigador(investigador);
+        if (!updated)
+        {
+            feedbackMensaje = "Fallo editando el investigador";
+            feedback = false;
+        }
+        else
+        {
+            feedbackMensaje = "Editado realizado con éxito";
+        }
+    }
+}
